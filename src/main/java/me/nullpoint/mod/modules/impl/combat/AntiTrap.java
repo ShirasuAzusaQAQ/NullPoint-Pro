@@ -1,1 +1,0 @@
-// This file has been intentionally left blank after the deletion of the AntiTrap module.
