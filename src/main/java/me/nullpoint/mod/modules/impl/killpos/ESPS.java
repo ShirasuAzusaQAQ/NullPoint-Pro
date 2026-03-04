@@ -1,3 +1,4 @@
+//这个目录下的三个功能bug也是非常的多，我不想改了
 package me.nullpoint.mod.modules.impl.killpos;
 
 import me.nullpoint.Nullpoint;
