@@ -1,11 +1,9 @@
 package me.nullpoint;
 
-import me.nullpoint.api.events.eventbus.EventBus;
-import me.nullpoint.api.managers.*;
-import me.nullpoint.mod.modules.impl.combat.AutoCrystal;
-import me.nullpoint.socket.network.NpSocketManager;
-import me.nullpoint.socket.network.SocketManager;
-import net.fabricmc.api.ModInitializer;
+	import me.nullpoint.api.events.eventbus.EventBus;
+	import me.nullpoint.api.managers.*;
+	import me.nullpoint.mod.modules.impl.combat.AutoCrystal;
+	import net.fabricmc.api.ModInitializer;
 
 import java.lang.invoke.MethodHandles;
 
@@ -36,12 +34,8 @@ public final class Nullpoint implements ModInitializer {
 	public static TimerManager TIMER;
 	public static ShaderManager SHADER;
 	public static FPSManager FPS;
-	public static SocketManager IRC;
-	public static NpSocketManager NPIRC;
 	public static ServerManager SERVER;
 	public static boolean loaded = false;
-//推送的时候记得改成false，这个是决定是否启用私有irc频道的
-	public static boolean isdev = true;
 
 	public static void update() {
 		MODULE.onUpdate();
@@ -81,17 +75,11 @@ public final class Nullpoint implements ModInitializer {
 		FPS = new FPSManager();
 		System.out.println("[" + LOG_NAME + "] Loading ServerManager");
 		SERVER = new ServerManager();
-		System.out.println("[" + LOG_NAME + "] Loading SpeedManager");
-		SPEED = new SpeedManager();
-		System.out.println("[" + LOG_NAME + "] Loading IRC");
-		IRC = new SocketManager();
-		if (isdev) {
-			System.out.println("[" + LOG_NAME + "] Loading NPIRC");
-			NPIRC = new NpSocketManager();
-		}
-		System.out.println("[" + LOG_NAME + "] Loading Settings");
-		CONFIG.loadSettings();
-		System.out.println("[" + LOG_NAME + "] Initialized and ready to play!");
+			System.out.println("[" + LOG_NAME + "] Loading SpeedManager");
+			SPEED = new SpeedManager();
+			System.out.println("[" + LOG_NAME + "] Loading Settings");
+			CONFIG.loadSettings();
+			System.out.println("[" + LOG_NAME + "] Initialized and ready to play!");
 
 		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 			if (loaded) {

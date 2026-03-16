@@ -113,7 +113,6 @@ public class ModuleManager implements Wrapper {
 		addModule(new BlockerESP());
 		addModule(new Blocker());
 		addModule(new HUD());
-		addModule(new IRC());
 		addModule(new PopChams());
 		addModule(new Burrow());
 		addModule(new AutoCrystal());
@@ -203,11 +202,8 @@ public class ModuleManager implements Wrapper {
 		addModule(new Replenish());
 		addModule(new Notify());
 		addModule(new MainMenu());
-		if (Nullpoint.isdev){
-			addModule(new OnlyNPIRC());
+			modules.sort(Comparator.comparing(Mod::getName));
 		}
-		modules.sort(Comparator.comparing(Mod::getName));
-	}
 
 	public boolean setBind(int eventKey) {
 		if (eventKey == -1 || eventKey == 0) {
