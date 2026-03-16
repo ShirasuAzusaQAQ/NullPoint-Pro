@@ -33,7 +33,7 @@ public class Desktop extends Module {
         }
     }
 
-    final TrayIcon icon = new TrayIcon(image, "NullPoint");
+    final TrayIcon icon = new TrayIcon(image, "NullPointPro");
     private final BooleanSetting onlyTabbed =
             add(new BooleanSetting("OnlyTabbed", false));
     private final BooleanSetting visualRange =

@@ -24,18 +24,7 @@ public class FriendManager implements Wrapper {
 
     public static boolean isFriend(String name) {
         return friendList.contains(name) ||
-                "EntityEvent".equals(name) ||
-                "dyzjct".equals(name) ||
-                "0ay".equals(name) ||
-                "eternity2333".equals(name) ||
-                "Q6E".equals(name) ||
-                "天才猫咪".equals(name) ||
-                "5k1d".equals(name) ||
-                "DreamLoveNing".equals(name) ||
-                "Dream__Dev".equals(name) ||
-                "8PE".equals(name) ||
-                "Best_IQ".equals(name) ||
-                "MBTPVP机器人_02".equals(name);
+                "".equals(name);
     }
 
     public static void removeFriend(String name) {

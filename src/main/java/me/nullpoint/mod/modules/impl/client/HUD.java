@@ -42,7 +42,7 @@ public class HUD extends Module {
     private final BooleanSetting renderingUp = add(new BooleanSetting("RenderingUp", true, v -> page.getValue() == Page.GLOBAL));
     private final BooleanSetting watermark = add(new BooleanSetting("Watermark", true, v -> page.getValue() == Page.ELEMENTS).setParent());
     public final SliderSetting offset = add(new SliderSetting("Offset", 8, 0, 100, -1, v -> watermark.isOpen() && page.getValue() == Page.ELEMENTS));
-    public final StringSetting watermarkString = add(new StringSetting("Text", "NullPoint", v -> watermark.isOpen() && page.getValue() == Page.ELEMENTS));
+    public final StringSetting watermarkString = add(new StringSetting("Text", "NullPointPro", v -> watermark.isOpen() && page.getValue() == Page.ELEMENTS));
     private final BooleanSetting watermarkShort = add(new BooleanSetting("Shorten", false, v -> watermark.isOpen() && page.getValue() == Page.ELEMENTS));
     private final BooleanSetting watermarkVerColor = add(new BooleanSetting("VerColor", true, v -> watermark.isOpen() && page.getValue() == Page.ELEMENTS));
     private final SliderSetting waterMarkY = add(new SliderSetting("Height", 2, 2, 12, v -> page.getValue() == Page.ELEMENTS && watermark.isOpen()));
