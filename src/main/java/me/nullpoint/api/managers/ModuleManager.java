@@ -6,6 +6,8 @@ import me.nullpoint.api.utils.Wrapper;
 import me.nullpoint.mod.Mod;
 import me.nullpoint.mod.gui.clickgui.ClickGuiScreen;
 import me.nullpoint.mod.modules.Module;
+import me.nullpoint.mod.modules.impl.player.FakeGamemode;
+import me.nullpoint.mod.modules.impl.exploit.Godmode;
 import me.nullpoint.mod.modules.impl.client.*;
 import me.nullpoint.mod.modules.impl.combat.*;
 import me.nullpoint.mod.modules.impl.killpos.*;
@@ -161,6 +163,8 @@ public class ModuleManager implements Wrapper {
 		addModule(new FreeCam());
 		addModule(new Ping());
 		addModule(new AntiCheat());
+		addModule(new FakeGamemode());
+		addModule(new Godmode());
 		addModule(new FeetTrap());
 		addModule(new Aura());
 		addModule(new TPAura());

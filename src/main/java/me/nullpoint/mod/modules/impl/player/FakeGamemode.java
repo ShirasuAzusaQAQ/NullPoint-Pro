@@ -1,9 +1,8 @@
-package me.nullpoint.mod.modules.deprecated;
+package me.nullpoint.mod.modules.impl.player;
 
 import me.nullpoint.mod.modules.Module;
 import net.minecraft.world.GameMode;
 
-@Deprecated
 public class FakeGamemode extends Module {
     public FakeGamemode() {
         super("FakeGamemode", Category.Player);
