@@ -23,6 +23,7 @@ public final class Nullpoint implements ModInitializer {
 	// Systems
 	public static ModuleManager MODULE;
 	public static CommandManager COMMAND;
+	public static CombatCoordinator COMBAT;
 	public static AltManager ALT;
 	public static GuiManager GUI;
 	public static ConfigManager CONFIG;
@@ -53,6 +54,7 @@ public final class Nullpoint implements ModInitializer {
 		PREFIX = Nullpoint.CONFIG.getString("prefix", ";");
 		System.out.println("[" + LOG_NAME + "] Initializing Modules");
 		MODULE = new ModuleManager();
+		COMBAT = new CombatCoordinator();
 		System.out.println("[" + LOG_NAME + "] Initializing Commands");
 		COMMAND = new CommandManager();
 		System.out.println("[" + LOG_NAME + "] Initializing GUI");
@@ -97,6 +99,8 @@ public final class Nullpoint implements ModInitializer {
 		ConfigManager.resetModule();
 		CONFIG = null;
 		MODULE = null;
+		if (COMBAT != null) COMBAT.clear();
+		COMBAT = null;
 		COMMAND = null;
 		GUI = null;
 		ALT = null;

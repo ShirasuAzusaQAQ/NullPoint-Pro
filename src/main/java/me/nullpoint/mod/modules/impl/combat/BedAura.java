@@ -5,6 +5,7 @@ import me.nullpoint.Nullpoint;
 import me.nullpoint.api.events.eventbus.EventHandler;
 import me.nullpoint.api.events.impl.RotateEvent;
 import me.nullpoint.api.events.impl.UpdateWalkingEvent;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.utils.combat.*;
 import me.nullpoint.api.utils.entity.EntityUtil;
 import me.nullpoint.api.utils.entity.InventoryUtil;
@@ -275,10 +276,13 @@ public class BedAura extends Module {
 		if (mc.world.getBlockState(pos).getBlock() instanceof BedBlock) {
 			Direction side = BlockUtil.getClickSide(pos);
 			Vec3d directionVec = new Vec3d(pos.getX() + 0.5 + side.getVector().getX() * 0.5, pos.getY() + 0.5 + side.getVector().getY() * 0.5, pos.getZ() + 0.5 + side.getVector().getZ() * 0.5);
+			if (!breakTimer.passedMs((long) breakDelay.getValue())) return;
+			if (!claimCombatAction("bed-break:" + pos, 79, Nullpoint.COMBAT.actionWindow(),
+					CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.ROTATION,
+					CombatCoordinator.Resource.BLOCK_USE)) return;
 			if (rotate.getValue()) {
 				if (!faceVector(directionVec)) return;
 			}
-			if (!breakTimer.passedMs((long) breakDelay.getValue())) return;
 			breakTimer.reset();
 			EntityUtil.swingHand(Hand.MAIN_HAND, swingMode.getValue());
 			BlockHitResult result = new BlockHitResult(directionVec, side, pos, false);
@@ -305,10 +309,13 @@ public class BedAura extends Module {
 		}
 		if (facing != null) {
 			Vec3d directionVec = new Vec3d(pos.getX() + 0.5 + Direction.UP.getVector().getX() * 0.5, pos.getY() + 0.5 + Direction.UP.getVector().getY() * 0.5, pos.getZ() + 0.5 + Direction.UP.getVector().getZ() * 0.5);
+			if (!placeTimer.passedMs((long) placeDelay.getValue())) return;
+			if (!claimCombatAction("bed-place:" + pos, 79, Nullpoint.COMBAT.actionWindow(),
+					CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.HOTBAR,
+					CombatCoordinator.Resource.ROTATION, CombatCoordinator.Resource.BLOCK_USE)) return;
 			if (rotate.getValue()) {
 				if (!faceVector(directionVec)) return;
 			}
-			if (!placeTimer.passedMs((long) placeDelay.getValue())) return;
 			placeTimer.reset();
 			doSwap(bedSlot);
 			if (yawDeceive.getValue()) HoleKick.pistonFacing(facing.getOpposite());

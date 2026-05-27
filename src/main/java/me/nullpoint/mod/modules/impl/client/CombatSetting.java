@@ -27,6 +27,11 @@ public class CombatSetting extends Module {
     public final BooleanSetting inventorySync = add(new BooleanSetting("InventorySync", false));
     public final EnumSetting<SwingSide> swingMode = add(new EnumSetting<>("SwingMode", SwingSide.Server));
     public final BooleanSetting obsMode = add(new BooleanSetting("OBSServer", false));
+    public final BooleanSetting coordinator = add(new BooleanSetting("Coordinator", true));
+    public final SliderSetting actionWindow = add(new SliderSetting("ActionWindow", 40, 0, 200, 1));
+    public final SliderSetting burstWindow = add(new SliderSetting("BurstWindow", 100, 0, 500, 1));
+    public final SliderSetting emergencyWindow = add(new SliderSetting("EmergencyWindow", 200, 0, 500, 1));
+    public final BooleanSetting debugCoordinator = add(new BooleanSetting("DebugCoordinator", false));
     public CombatSetting() {
         super("CombatSetting", Category.Client);
         INSTANCE = this;

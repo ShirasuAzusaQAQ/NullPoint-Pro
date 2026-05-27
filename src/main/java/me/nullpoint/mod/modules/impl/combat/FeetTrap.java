@@ -6,6 +6,7 @@ import me.nullpoint.api.events.impl.MoveEvent;
 import me.nullpoint.api.events.impl.Render3DEvent;
 import me.nullpoint.api.events.impl.UpdateWalkingEvent;
 import me.nullpoint.api.managers.CommandManager;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.managers.RotateManager;
 import me.nullpoint.api.utils.combat.CombatUtil;
 import me.nullpoint.api.utils.entity.EntityUtil;
@@ -185,6 +186,9 @@ public class FeetTrap extends Module {
         if (block == -1) return;
 
         if (!BlockUtil.canPlace(pos, 6, true)) return;
+        if (!claimCombatAction("place:" + pos, 62, Nullpoint.COMBAT.actionWindow(),
+                CombatCoordinator.Resource.HOTBAR, CombatCoordinator.Resource.ROTATION,
+                CombatCoordinator.Resource.BLOCK_USE)) return;
         if (breakCrystal.getValue()) {
             CombatUtil.attackCrystal(pos, rotate.getValue(), usingPause.getValue());
         } else if (BlockUtil.hasEntity(pos, false)) return;

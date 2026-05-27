@@ -5,6 +5,7 @@ package me.nullpoint.mod.modules;
 
 import me.nullpoint.Nullpoint;
 import me.nullpoint.api.managers.CommandManager;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.managers.ModuleManager;
 import me.nullpoint.mod.Mod;
 import me.nullpoint.mod.modules.impl.client.ChatSetting;
@@ -211,6 +212,10 @@ public abstract class Module extends Mod {
 
 	public boolean hasSettings() {
 		return !this.settings.isEmpty();
+	}
+
+	protected boolean claimCombatAction(String action, int priority, long durationMs, CombatCoordinator.Resource... resources) {
+		return Nullpoint.COMBAT == null || Nullpoint.COMBAT.tryAcquire(getName(), action, priority, durationMs, resources);
 	}
 
 	public static boolean nullCheck() {

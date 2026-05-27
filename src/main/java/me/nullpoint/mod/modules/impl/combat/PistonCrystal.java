@@ -3,6 +3,7 @@ package me.nullpoint.mod.modules.impl.combat;
 import me.nullpoint.Nullpoint;
 import me.nullpoint.api.events.eventbus.EventHandler;
 import me.nullpoint.api.events.impl.RotateEvent;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.managers.CommandManager;
 import me.nullpoint.api.managers.RotateManager;
 import me.nullpoint.api.utils.combat.CombatUtil;
@@ -234,6 +235,10 @@ public class PistonCrystal extends Module {
         }
         if (!timer.passedMs(updateDelay.getValueInt())) return;
         if (getPos && bestPos != null) {
+            if (!claimCombatAction("piston:" + bestPos, 89, Nullpoint.COMBAT.burstWindow(),
+                    CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.HOTBAR,
+                    CombatCoordinator.Resource.ROTATION, CombatCoordinator.Resource.BLOCK_USE,
+                    CombatCoordinator.Resource.ENTITY_ATTACK)) return;
             timer.reset();
             if (debug.getValue()) {
                 CommandManager.sendChatMessage("[Debug] PistonPos:" + bestPos + " Facing:" + bestFacing + " CrystalPos:" + bestOPos.offset(bestFacing));
@@ -255,6 +260,9 @@ public class PistonCrystal extends Module {
         if (usingPause && EntityUtil.isUsing())
             return;
         if (crystal != null) {
+            if (!claimCombatAction("piston-break:" + crystal.getId(), 89, Nullpoint.COMBAT.actionWindow(),
+                    CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.ENTITY_ATTACK,
+                    CombatCoordinator.Resource.ROTATION)) return;
             CombatUtil.breakTimer.reset();
             if (rotate && CombatSetting.INSTANCE.attackRotate.getValue()){
                 if (!faceVector(new Vec3d(crystal.getX(), crystal.getY() + 0.25, crystal.getZ()))) return;

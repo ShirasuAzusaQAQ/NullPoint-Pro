@@ -3,15 +3,18 @@
  */
 package me.nullpoint.mod.modules.impl.combat;
 
+import me.nullpoint.Nullpoint;
 import me.nullpoint.api.events.eventbus.EventHandler;
+import me.nullpoint.api.events.eventbus.EventPriority;
 import me.nullpoint.api.events.impl.UpdateWalkingEvent;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.utils.entity.EntityUtil;
 import me.nullpoint.api.utils.entity.InventoryUtil;
-import me.nullpoint.api.utils.math.Timer;
 import me.nullpoint.mod.gui.clickgui.ClickGuiScreen;
 import me.nullpoint.mod.modules.Module;
 import me.nullpoint.mod.modules.settings.impl.BooleanSetting;
 import me.nullpoint.mod.modules.settings.impl.SliderSetting;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.item.Items;
@@ -27,14 +30,13 @@ public class AutoTotem extends Module {
 		this.setDescription("Automatically replaced totems.");
 	}
 	int totems = 0;
-	private final Timer timer = new Timer();
 
 	@Override
 	public String getInfo() {
 		return String.valueOf(totems);
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onUpdateWalking(UpdateWalkingEvent event) {
 		update();
 	}
@@ -44,13 +46,15 @@ public class AutoTotem extends Module {
 		update();
 	}
 
+	@Override
+	public void onRender3D(MatrixStack matrixStack, float partialTicks) {
+		update();
+	}
+
 	private void update() {
 		if (nullCheck()) return;
 		totems = InventoryUtil.getItemCount(Items.TOTEM_OF_UNDYING);
 		if (mc.currentScreen != null && !(mc.currentScreen instanceof ChatScreen) && !(mc.currentScreen instanceof InventoryScreen) && !(mc.currentScreen instanceof ClickGuiScreen)) {
-			return;
-		}
-		if (!timer.passedMs(200)) {
 			return;
 		}
 		if (mc.player.getHealth() + mc.player.getAbsorptionAmount() > health.getValue()) {
@@ -61,6 +65,8 @@ public class AutoTotem extends Module {
 		}
 		int itemSlot = InventoryUtil.findItemInventorySlot(Items.TOTEM_OF_UNDYING);
 		if (itemSlot != -1) {
+			if (!claimCombatAction("emergency-totem", 100, Nullpoint.COMBAT.emergencyWindow(),
+					CombatCoordinator.Resource.HOTBAR, CombatCoordinator.Resource.INVENTORY)) return;
 			if (mainHand.getValue()) {
 				InventoryUtil.switchToSlot(0);
 				if (mc.player.getInventory().getStack(0).getItem() != Items.TOTEM_OF_UNDYING) {
@@ -75,7 +81,6 @@ public class AutoTotem extends Module {
 				mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, itemSlot, 0, SlotActionType.PICKUP, mc.player);
 				EntityUtil.syncInventory();
 			}
-			timer.reset();
 		}
 	}
 }

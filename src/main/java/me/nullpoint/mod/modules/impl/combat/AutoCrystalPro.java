@@ -7,6 +7,7 @@ import me.nullpoint.api.events.impl.PacketEvent;
 import me.nullpoint.api.events.impl.Render3DEvent;
 import me.nullpoint.api.events.impl.RotateEvent;
 import me.nullpoint.api.events.impl.UpdateWalkingEvent;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.utils.combat.*;
 import me.nullpoint.api.utils.entity.EntityUtil;
 import me.nullpoint.api.utils.entity.InventoryUtil;
@@ -534,6 +535,8 @@ public class AutoCrystalPro extends Module {
         if (!Break.getValue()) return;
         if (!CombatUtil.breakTimer.passedMs((long) breakDelay.getValue())) return;
         for (EndCrystalEntity entity : mc.world.getNonSpectatingEntities(EndCrystalEntity.class, new Box(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1))) {
+            if (!claimCombatAction("break:" + entity.getId(), 81, Nullpoint.COMBAT.actionWindow(),
+                    CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.ENTITY_ATTACK, CombatCoordinator.Resource.ROTATION)) return;
             if (rotate.getValue() && onBreak.getValue()) {
                 if (!faceVector(entity.getPos().add(0, 0.25, 0))) return;
             }
@@ -561,10 +564,13 @@ public class AutoCrystalPro extends Module {
         BlockPos obsPos = pos.down();
         Direction facing = BlockUtil.getClickSide(obsPos);
         Vec3d vec = obsPos.toCenterPos().add(facing.getVector().getX() * 0.5, facing.getVector().getY() * 0.5, facing.getVector().getZ() * 0.5);
+        if (!placeTimer.passedMs((long) placeDelay.getValue())) return;
+        if (!claimCombatAction("place:" + pos, 81, Nullpoint.COMBAT.actionWindow(),
+                CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.HOTBAR,
+                CombatCoordinator.Resource.ROTATION, CombatCoordinator.Resource.BLOCK_USE)) return;
         if (rotate.getValue()) {
             if (!faceVector(vec)) return;
         }
-        if (!placeTimer.passedMs((long) placeDelay.getValue())) return;
         placeTimer.reset();
         if (mc.player.getMainHandStack().getItem().equals(Items.END_CRYSTAL) || mc.player.getOffHandStack().getItem().equals(Items.END_CRYSTAL)) {
             placeCrystal(pos);

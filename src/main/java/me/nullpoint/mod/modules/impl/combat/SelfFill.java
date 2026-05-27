@@ -3,6 +3,7 @@ package me.nullpoint.mod.modules.impl.combat;
 import me.nullpoint.Nullpoint;
 import me.nullpoint.api.events.eventbus.EventHandler;
 import me.nullpoint.api.events.impl.UpdateWalkingEvent;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.managers.CommandManager;
 import me.nullpoint.api.managers.MineManager;
 import me.nullpoint.api.utils.combat.CombatUtil;
@@ -184,6 +185,10 @@ public class SelfFill extends Module {
     }
     @EventHandler
     public void onUpdateWalking(UpdateWalkingEvent event) {
+     if (!claimCombatAction("self-fill", 90, Nullpoint.COMBAT.burstWindow(),
+             CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.HOTBAR,
+             CombatCoordinator.Resource.ROTATION, CombatCoordinator.Resource.BLOCK_USE,
+             CombatCoordinator.Resource.ENTITY_ATTACK, CombatCoordinator.Resource.MOVEMENT_BURST)) return;
      Misc(event);
      FakeJump(event);
      LagMode();

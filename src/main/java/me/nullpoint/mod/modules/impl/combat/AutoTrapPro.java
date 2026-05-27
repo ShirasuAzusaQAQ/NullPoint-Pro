@@ -4,6 +4,7 @@ import me.nullpoint.Nullpoint;
 import me.nullpoint.api.events.eventbus.EventHandler;
 import me.nullpoint.api.events.impl.Render3DEvent;
 import me.nullpoint.api.events.impl.UpdateWalkingEvent;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.utils.combat.CombatUtil;
 import me.nullpoint.api.utils.entity.EntityUtil;
 import me.nullpoint.api.utils.entity.InventoryUtil;
@@ -339,6 +340,9 @@ public class AutoTrapPro
         int old = mc.player.getInventory().selectedSlot;
         int block = anchor && getAnchor() != -1 ? getAnchor() : getBlock();
         if (block == -1) return;
+        if (!claimCombatAction("place:" + pos, 61, Nullpoint.COMBAT.actionWindow(),
+                CombatCoordinator.Resource.HOTBAR, CombatCoordinator.Resource.ROTATION,
+                CombatCoordinator.Resource.BLOCK_USE)) return;
         if (!pre.getValue()) AutoTrapRender.addBlock(pos);
         placeList.add(pos);
         CombatUtil.attackCrystal(pos, rotate.getValue(), usingPause.getValue());
@@ -363,6 +367,9 @@ public class AutoTrapPro
         int old = mc.player.getInventory().selectedSlot;
         int block = getBlock();
         if (block == -1) return;
+        if (!claimCombatAction("place:" + pos, 61, Nullpoint.COMBAT.actionWindow(),
+                CombatCoordinator.Resource.HOTBAR, CombatCoordinator.Resource.ROTATION,
+                CombatCoordinator.Resource.BLOCK_USE)) return;
         if (!pre.getValue()) AutoTrapRender.addBlock(pos);
         placeList.add(pos);
         CombatUtil.attackCrystal(pos, rotate.getValue(), usingPause.getValue());

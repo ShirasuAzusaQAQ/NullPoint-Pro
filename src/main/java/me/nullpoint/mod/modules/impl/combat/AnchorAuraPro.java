@@ -6,6 +6,7 @@ import me.nullpoint.api.events.eventbus.EventHandler;
 import me.nullpoint.api.events.impl.Render3DEvent;
 import me.nullpoint.api.events.impl.RotateEvent;
 import me.nullpoint.api.events.impl.UpdateWalkingEvent;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.utils.combat.*;
 import me.nullpoint.api.utils.entity.EntityUtil;
 import me.nullpoint.api.utils.entity.InventoryUtil;
@@ -340,6 +341,10 @@ public class AnchorAuraPro extends Module  {
             if (mc.player != null && usingPause.getValue() && mc.player.isUsingItem()) {
                 return;
             }
+            if (!claimCombatAction("anchor:" + tempPos, 83, Nullpoint.COMBAT.burstWindow(),
+                    CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.HOTBAR,
+                    CombatCoordinator.Resource.ROTATION, CombatCoordinator.Resource.BLOCK_USE,
+                    CombatCoordinator.Resource.ENTITY_ATTACK)) return;
             //BreakCrystal
             if (breakCrystal.getValue()) {
                 CombatUtil.attackCrystal(new BlockPos(tempPos), rotate.getValue(), false);

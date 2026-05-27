@@ -5,6 +5,7 @@ import me.nullpoint.api.events.eventbus.EventHandler;
 import me.nullpoint.api.events.impl.Render3DEvent;
 import me.nullpoint.api.events.impl.UpdateWalkingEvent;
 import me.nullpoint.api.managers.BreakManager;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.managers.CommandManager;
 import me.nullpoint.api.managers.MineManager;
 import me.nullpoint.api.utils.combat.CombatUtil;
@@ -120,6 +121,10 @@ public class Burrow extends Module {
         boolean above = false;
         BlockPos headPos = EntityUtil.getPlayerPos(true).up(2);
         boolean rotate = this.rotate.getValue() == RotateMode.Normal;
+        if (!claimCombatAction("burrow", 90, Nullpoint.COMBAT.burstWindow(),
+                CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.HOTBAR,
+                CombatCoordinator.Resource.ROTATION, CombatCoordinator.Resource.BLOCK_USE,
+                CombatCoordinator.Resource.ENTITY_ATTACK, CombatCoordinator.Resource.MOVEMENT_BURST)) return;
         CombatUtil.attackCrystal(pos1, rotate, false);
         CombatUtil.attackCrystal(pos2, rotate, false);
         CombatUtil.attackCrystal(pos3, rotate, false);

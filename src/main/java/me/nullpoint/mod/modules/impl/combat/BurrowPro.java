@@ -2,6 +2,7 @@ package me.nullpoint.mod.modules.impl.combat;
 
 import me.nullpoint.Nullpoint;
 import me.nullpoint.api.events.Event;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.managers.CommandManager;
 import me.nullpoint.api.utils.combat.CombatUtil;
 import me.nullpoint.api.utils.entity.EntityUtil;
@@ -142,6 +143,10 @@ public class BurrowPro extends Module {
         boolean above = false;
         BlockPos headPos = EntityUtil.getPlayerPos(true).up(2);
         boolean rotate = this.rotate.getValue() == RotateMode.Normal;
+        if (!claimCombatAction("burrow", 91, Nullpoint.COMBAT.burstWindow(),
+                CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.HOTBAR,
+                CombatCoordinator.Resource.ROTATION, CombatCoordinator.Resource.BLOCK_USE,
+                CombatCoordinator.Resource.ENTITY_ATTACK, CombatCoordinator.Resource.MOVEMENT_BURST)) return;
         CombatUtil.attackCrystal(pos1, rotate, false);
         CombatUtil.attackCrystal(pos2, rotate, false);
         CombatUtil.attackCrystal(pos3, rotate, false);

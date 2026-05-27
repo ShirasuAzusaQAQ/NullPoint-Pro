@@ -156,7 +156,6 @@ public class ModuleManager implements Wrapper {
 		addModule(new NoSoundLag());
 		addModule(new CrystalPlaceESP());
 		addModule(new AntiPacketKick());
-		addModule(new BowBomb());
 		addModule(new InventoryMove());
 		addModule(new FakePlayer());
 		addModule(new FakePlayerPro());
@@ -177,7 +176,6 @@ public class ModuleManager implements Wrapper {
 		addModule(new AutoWalk());
 		addModule(new SpinBot());
 		addModule(new AutoAim());
-		addModule(new AutoRegear());
 		addModule(new PistonCrystal());
 		addModule(new SafeWalk());
 		addModule(new MCF());
@@ -267,14 +265,17 @@ public class ModuleManager implements Wrapper {
 	}
 
 	public void onUpdate() {
-		modules.stream().filter(Module::isOn).forEach(module -> {
-			try {
-				module.onUpdate();
-			} catch (Exception e) {
-				e.printStackTrace();
-				CommandManager.sendChatMessage("§4[!] " + e.getMessage());
-			}
-		});
+		modules.stream().filter(module -> module instanceof AutoTotem && module.isOn()).forEach(this::updateModule);
+		modules.stream().filter(module -> !(module instanceof AutoTotem) && module.isOn()).forEach(this::updateModule);
+	}
+
+	private void updateModule(Module module) {
+		try {
+			module.onUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			CommandManager.sendChatMessage("§4[!] " + e.getMessage());
+		}
 	}
 
 	public void onLogin() {
@@ -295,7 +296,8 @@ public class ModuleManager implements Wrapper {
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		matrixStack.push();
-		modules.stream().filter(Module::isOn).forEach(module -> module.onRender3D(matrixStack, mc.getTickDelta()));
+		modules.stream().filter(module -> module instanceof AutoTotem && module.isOn()).forEach(module -> module.onRender3D(matrixStack, mc.getTickDelta()));
+		modules.stream().filter(module -> !(module instanceof AutoTotem) && module.isOn()).forEach(module -> module.onRender3D(matrixStack, mc.getTickDelta()));
 		Nullpoint.EVENT_BUS.post(new Render3DEvent(matrixStack, mc.getTickDelta()));
 		matrixStack.pop();
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
