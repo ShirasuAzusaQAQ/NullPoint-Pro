@@ -24,6 +24,7 @@ public class CombatCoordinator {
             return true;
         }
 
+        priority = CombatSetting.INSTANCE.getPriority(owner, priority);
         long now = System.currentTimeMillis();
         clearExpired(now);
         for (Resource resource : resources) {

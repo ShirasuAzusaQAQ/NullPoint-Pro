@@ -1,6 +1,8 @@
 package me.nullpoint.mod.modules.impl.combat;
 
+import me.nullpoint.Nullpoint;
 import me.nullpoint.api.events.impl.UpdateWalkingEvent;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.utils.combat.CombatUtil;
 import me.nullpoint.api.utils.entity.EntityUtil;
 import me.nullpoint.api.utils.entity.InventoryUtil;
@@ -204,6 +206,10 @@ public class HoleKickPro extends Module {
                     CombatUtil.modifyPos = null;
 
                     if (canPower) {
+                        if (!claimCombatAction("hole-kick:" + piston, 50, Nullpoint.COMBAT.burstWindow(),
+                                CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.HOTBAR,
+                                CombatCoordinator.Resource.ROTATION, CombatCoordinator.Resource.BLOCK_USE,
+                                CombatCoordinator.Resource.ENTITY_ATTACK)) return false;
                         int pistonSlot = findClass(PistonBlock.class);
                         Direction side = BlockUtil.getPlaceSide(piston);
                         if (side != null) {
@@ -262,6 +268,10 @@ public class HoleKickPro extends Module {
                         }
                     }
                     if (powerFacing != null) {
+                        if (!claimCombatAction("hole-kick:" + piston, 50, Nullpoint.COMBAT.burstWindow(),
+                                CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.HOTBAR,
+                                CombatCoordinator.Resource.ROTATION, CombatCoordinator.Resource.BLOCK_USE,
+                                CombatCoordinator.Resource.ENTITY_ATTACK)) return false;
                         int oldSlot = mc.player.getInventory().selectedSlot;
                         int powerSlot = findBlock(Blocks.REDSTONE_BLOCK);
                         doSwap(powerSlot);

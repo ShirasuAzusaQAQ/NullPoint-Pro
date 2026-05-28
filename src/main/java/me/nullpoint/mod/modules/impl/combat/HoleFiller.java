@@ -5,6 +5,7 @@ import me.nullpoint.Nullpoint;
 import me.nullpoint.api.events.eventbus.EventHandler;
 import me.nullpoint.api.events.eventbus.EventPriority;
 import me.nullpoint.api.events.impl.RotateEvent;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.managers.RotateManager;
 import me.nullpoint.api.utils.combat.CombatUtil;
 import me.nullpoint.api.utils.entity.EntityUtil;
@@ -155,6 +156,9 @@ public class HoleFiller extends Module {
                         if (progress >= blocksPer.getValueInt()) continue;
                         if(!BlockUtil.canPlace(pos, placeRange.getValue())) continue;
                         if (BlockUtil.getPlaceSide(pos, placeRange.getValue()) != null && mc.world.isAir(pos)) {
+                            if (!claimCombatAction("fill:" + pos, 10, Nullpoint.COMBAT.actionWindow(),
+                                    CombatCoordinator.Resource.HOTBAR, CombatCoordinator.Resource.ROTATION,
+                                    CombatCoordinator.Resource.BLOCK_USE)) continue;
                             int oldSlot = mc.player.getInventory().selectedSlot;
                             doSwap(block);
                             placeBlock(pos, rotate.getValue());

@@ -5,6 +5,7 @@ import me.nullpoint.api.events.eventbus.EventHandler;
 import me.nullpoint.api.events.eventbus.EventPriority;
 import me.nullpoint.api.events.impl.RotateEvent;
 import me.nullpoint.api.events.impl.UpdateWalkingEvent;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.managers.RotateManager;
 import me.nullpoint.api.utils.combat.CombatUtil;
 import me.nullpoint.api.utils.entity.EntityUtil;
@@ -203,6 +204,9 @@ public class VWebAura extends Module {
         if (BlockUtil.getPlaceSide(pos, placeRange.getValue()) != null && mc.world.isAir(pos)) {
             int oldSlot = mc.player.getInventory().selectedSlot;
             int webSlot = getWebSlot();
+            if (!claimCombatAction("web:" + pos, 40, Nullpoint.COMBAT.actionWindow(),
+                    CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.HOTBAR,
+                    CombatCoordinator.Resource.ROTATION, CombatCoordinator.Resource.BLOCK_USE)) return false;
             if (!placeBlock(pos, rotate.getValue(), webSlot)) return false;
             if (noMine.getValue() && pos.equals(VSpeedMine.breakPos)) {
                 VSpeedMine.breakPos = null;

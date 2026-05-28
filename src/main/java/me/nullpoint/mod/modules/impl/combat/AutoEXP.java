@@ -1,8 +1,10 @@
 package me.nullpoint.mod.modules.impl.combat;
 
+import me.nullpoint.Nullpoint;
 import me.nullpoint.api.events.eventbus.EventHandler;
 import me.nullpoint.api.events.eventbus.EventPriority;
 import me.nullpoint.api.events.impl.RotateEvent;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.utils.entity.EntityUtil;
 import me.nullpoint.api.utils.entity.InventoryUtil;
 import me.nullpoint.api.utils.math.Timer;
@@ -79,12 +81,18 @@ public class AutoEXP extends Module {
         int oldSlot = mc.player.getInventory().selectedSlot;
         int newSlot;
         if (inventory.getValue() && (newSlot = InventoryUtil.findItemInventorySlot(Items.EXPERIENCE_BOTTLE)) != -1) {
+            if (!claimCombatAction("throw-exp", 20, Nullpoint.COMBAT.actionWindow(),
+                    CombatCoordinator.Resource.HOTBAR, CombatCoordinator.Resource.INVENTORY,
+                    CombatCoordinator.Resource.ROTATION, CombatCoordinator.Resource.BLOCK_USE)) return;
             InventoryUtil.inventorySwap(newSlot, mc.player.getInventory().selectedSlot);
             mc.player.networkHandler.sendPacket(new PlayerInteractItemC2SPacket(Hand.MAIN_HAND, EntityUtil.getWorldActionId(mc.world)));
             InventoryUtil.inventorySwap(newSlot, mc.player.getInventory().selectedSlot);
             EntityUtil.syncInventory();
             delayTimer.reset();
         } else if ((newSlot = InventoryUtil.findItem(Items.EXPERIENCE_BOTTLE)) != -1) {
+            if (!claimCombatAction("throw-exp", 20, Nullpoint.COMBAT.actionWindow(),
+                    CombatCoordinator.Resource.HOTBAR, CombatCoordinator.Resource.ROTATION,
+                    CombatCoordinator.Resource.BLOCK_USE)) return;
             InventoryUtil.switchToSlot(newSlot);
             mc.player.networkHandler.sendPacket(new PlayerInteractItemC2SPacket(Hand.MAIN_HAND, EntityUtil.getWorldActionId(mc.world)));
             InventoryUtil.switchToSlot(oldSlot);

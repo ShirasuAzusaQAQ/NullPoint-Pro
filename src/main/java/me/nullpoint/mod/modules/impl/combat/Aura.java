@@ -4,6 +4,7 @@ import me.nullpoint.Nullpoint;
 import me.nullpoint.api.events.eventbus.EventHandler;
 import me.nullpoint.api.events.eventbus.EventPriority;
 import me.nullpoint.api.events.impl.RotateEvent;
+import me.nullpoint.api.managers.CombatCoordinator;
 import me.nullpoint.api.utils.combat.CombatUtil;
 import me.nullpoint.api.utils.entity.EntityUtil;
 import me.nullpoint.api.utils.entity.InventoryUtil;
@@ -174,6 +175,9 @@ public class Aura extends Module {
         if (!check()) {
             return;
         }
+        if (!claimCombatAction("attack:" + target.getId(), 30, Nullpoint.COMBAT.actionWindow(),
+                CombatCoordinator.Resource.AURA, CombatCoordinator.Resource.ENTITY_ATTACK,
+                CombatCoordinator.Resource.ROTATION)) return;
         if (rotate.getValue()) {
             if (!faceVector(target.getPos().add(0, 1.5, 0))) return;
         }
