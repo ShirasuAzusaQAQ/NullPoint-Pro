@@ -427,12 +427,25 @@ public class AutoCrystalPro extends Module {
     public boolean canPlaceCrystal(BlockPos pos, boolean ignoreCrystal, boolean ignoreItem) {
         BlockPos obsPos = pos.down();
         BlockPos boost = obsPos.up();
+        BlockPos boost2 = boost.up();
         return (getBlock(obsPos) == Blocks.BEDROCK || getBlock(obsPos) == Blocks.OBSIDIAN)
                 && BlockUtil.getClickSideStrict(obsPos) != null
                 && !hasEntityBlockCrystal(boost, ignoreCrystal, ignoreItem)
-                && !hasEntityBlockCrystal(boost.up(), ignoreCrystal, ignoreItem)
-                && (getBlock(boost) == Blocks.AIR || hasEntityBlockCrystal(boost, false, ignoreItem) && getBlock(boost) == Blocks.FIRE)
-                && (!CombatSetting.INSTANCE.lowVersion.getValue() || getBlock(boost.up()) == Blocks.AIR);
+                && (isAboveWorld(boost2) || !hasEntityBlockCrystal(boost2, ignoreCrystal, ignoreItem))
+                && (isCrystalSpace(boost, ignoreItem))
+                && (!CombatSetting.INSTANCE.lowVersion.getValue() || isAirOrAboveWorld(boost2));
+    }
+
+    private boolean isCrystalSpace(BlockPos pos, boolean ignoreItem) {
+        return isAirOrAboveWorld(pos) || hasEntityBlockCrystal(pos, false, ignoreItem) && getBlock(pos) == Blocks.FIRE;
+    }
+
+    private boolean isAirOrAboveWorld(BlockPos pos) {
+        return isAboveWorld(pos) || getBlock(pos) == Blocks.AIR;
+    }
+
+    private boolean isAboveWorld(BlockPos pos) {
+        return pos.getY() >= mc.world.getTopY();
     }
 
     public boolean hasEntityBlockCrystal(BlockPos pos, boolean ignoreCrystal, boolean ignoreItem) {
